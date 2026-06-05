@@ -28,7 +28,7 @@ const Profile: React.FC = () => {
     { label: '产品验真', icon: '🔍', desc: '防伪查询与联保', action: () => navigate('/auth') },
     { label: '意见反馈', icon: '✍️', desc: '告诉我们您的建议', action: () => navigate('/feedback') },
     { label: '联系客服', icon: '💬', desc: '专业顾问在线咨询', action: () => alert('正在连接人工客服...') },
-    { label: '设置', icon: '⚙️', desc: '系统设置与安全', action: () => navigate('/settings') },
+    { label: '关于', icon: 'ℹ️', desc: '关于与系统设置', action: () => navigate('/about') },
   ];
 
   return (

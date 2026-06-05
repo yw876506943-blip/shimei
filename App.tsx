@@ -28,6 +28,7 @@ import CarePlan from './pages/CarePlan';
 import Checkout from './pages/Checkout';
 import DeviceSettings from './pages/DeviceSettings';
 import Settings from './pages/Settings';
+import About from './pages/About';
 
 const NavIcon = ({ name, active }: { name: string; active: boolean }) => {
   const color = active ? '#FFFFFF' : 'rgba(255,255,255,0.6)';
@@ -54,7 +55,7 @@ const Header = () => {
     '/product/', '/orders', '/address', '/activity/',
     '/membership', '/auth', '/brand', '/feedback', '/edit-profile',
     '/skin-archive', '/skin-report/', '/care-plan', '/tutorial/', '/tutorials',
-    '/full-history', '/care-logs', '/pairing', '/device', '/checkout', '/device-settings', '/settings'
+    '/full-history', '/care-logs', '/pairing', '/device', '/checkout', '/device-settings', '/settings', '/about'
   ];
   const shouldHide = hidePaths.some(p => location.pathname.startsWith(p));
 
@@ -82,7 +83,7 @@ const TabBar = () => {
   const location = useLocation();
   const tabs = [
     { path: '/', name: '首页', icon: 'home' },
-    { path: '/new', name: '新品', icon: 'new' },
+    { path: '/activities', name: '活动', icon: 'new' },
     { path: '/analysis', name: '测肤', icon: 'analysis' },
     { path: '/shop', name: '商城', icon: 'shop' },
     { path: '/profile', name: '我的', icon: 'profile' },
@@ -92,7 +93,7 @@ const TabBar = () => {
     '/product/', '/orders', '/address', '/activity/',
     '/membership', '/auth', '/brand', '/feedback', '/edit-profile',
     '/skin-archive', '/skin-report/', '/care-plan', '/tutorial/', '/tutorials',
-    '/full-history', '/care-logs', '/pairing', '/device', '/checkout', '/device-settings', '/settings'
+    '/full-history', '/care-logs', '/pairing', '/device', '/checkout', '/device-settings', '/settings', '/about'
   ];
   const shouldHide = hideTabPaths.some(p => location.pathname.startsWith(p));
 
@@ -152,6 +153,7 @@ const App: React.FC = () => {
             <Route path="/profile" element={<Profile />} />
             <Route path="/edit-profile" element={<EditProfile />} />
             <Route path="/settings" element={<Settings />} />
+            <Route path="/about" element={<About />} />
             <Route path="/skin-archive" element={<SkinArchive />} />
             <Route path="/skin-report/:id" element={<SkinReportDetail />} />
             <Route path="/pairing" element={<BluetoothPairing />} />
