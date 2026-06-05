@@ -1,0 +1,7 @@
+{
+  "name": "示美美容仪",
+  "description": "",
+  "requestFramePermissions": [
+    "camera"
+  ]
+}
