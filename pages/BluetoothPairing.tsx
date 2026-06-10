@@ -7,13 +7,13 @@ const mockDevices = [
   {
     id: 'SH-M1-PRO',
     name: 'SHEEN M1 Pro',
-    sn: 'SN: S1P98230001X',
+    sn: 'ID: S1P98230001X',
     image: 'https://images.unsplash.com/photo-1596755389378-c11dde082531?auto=format&fit=crop&q=80&w=200'
   },
   {
     id: 'SH-BASIC',
     name: 'SHEEN Basic',
-    sn: 'SN: S1B88210342Z',
+    sn: 'ID: S1B88210342Z',
     image: 'https://images.unsplash.com/photo-1629198688000-71f23e745b6e?auto=format&fit=crop&q=80&w=200'
   }
 ];

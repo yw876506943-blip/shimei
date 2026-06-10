@@ -5,9 +5,7 @@ const Settings: React.FC = () => {
   const navigate = useNavigate();
 
   const settingItems = [
-    { label: '隐私政策', icon: '📄', action: () => alert('正在加载隐私政策...') },
-    { label: '用户协议', icon: '📝', action: () => alert('正在加载用户协议...') },
-    { label: '帐户安全', icon: '🛡️', action: () => alert('正在加载帐户安全设置...') },
+    { label: '小程序版本', icon: '🔰', action: () => {}, extra: 'v1.0.0' },
   ];
 
   return (
@@ -33,14 +31,14 @@ const Settings: React.FC = () => {
                 <span className="text-xl">{item.icon}</span>
                 <span className="text-sm font-bold text-[#4A3E3E]">{item.label}</span>
               </div>
-              <svg className="w-4 h-4 text-[#D7C4B2]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7"/></svg>
+              {item.extra ? (
+                  <span className="text-sm text-[#A39A92] font-medium">{item.extra}</span>
+              ) : (
+                  <svg className="w-4 h-4 text-[#D7C4B2]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7"/></svg>
+              )}
             </div>
           ))}
         </div>
-        
-        <button className="w-full bg-white rounded-[24px] py-4 text-[#4A3E3E] font-bold text-sm shadow-sm border border-[#F5EBE0]/50 active:bg-gray-50 transition-colors">
-          退出登录
-        </button>
       </div>
     </div>
   );

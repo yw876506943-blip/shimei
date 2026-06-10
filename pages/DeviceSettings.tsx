@@ -48,7 +48,7 @@ const DeviceSettings: React.FC = () => {
           <div className="p-4 border-b border-[#F5EBE0]/50 flex items-center justify-between">
             <div className="flex items-center gap-3 text-[#8B7E74]">
               <Info size={18} />
-              <span className="font-bold">设备序列号 (SN)</span>
+              <span className="font-bold">设备序列号 (ID)</span>
             </div>
             <span className="text-[#4A3E3E] font-mono">S1P98230001X</span>
           </div>

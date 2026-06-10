@@ -39,7 +39,7 @@ const Dashboard: React.FC<{ paired?: boolean }> = ({ paired }) => {
           <div className="flex justify-between items-start">
             <div className="space-y-1.5">
               <h3 className="text-[22px] font-medium text-[#1A1A1A]">M1</h3>
-              <p className="text-[13px] text-[#A39A92] uppercase tracking-wider">SN: C8478045E359</p>
+              <p className="text-[13px] text-[#A39A92] uppercase tracking-wider">ID: C8478045E359</p>
               <p className="text-[13px] text-[#A39A92] uppercase tracking-wider">BATTERY: 80%</p>
             </div>
             <div className="text-right space-y-1.5">
@@ -47,7 +47,6 @@ const Dashboard: React.FC<{ paired?: boolean }> = ({ paired }) => {
                 <span className="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
                 <span className="text-[13px]">蓝牙已连接</span>
               </div>
-              <p className="text-[13px] text-[#A39A92]">固件号: V0.1</p>
             </div>
           </div>
           

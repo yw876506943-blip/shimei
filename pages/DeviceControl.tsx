@@ -53,7 +53,6 @@ const DeviceControl: React.FC = () => {
   const navigate = useNavigate();
   const [activeMode, setActiveMode] = useState<DeviceMode>(DeviceMode.FACE);
   const [gear, setGear] = useState(1);
-  const [isPowerOn, setIsPowerOn] = useState(false);
   
   // Auto mode state (replaces isFiring for continuous operations)
   const [autoMode, setAutoMode] = useState(false);
@@ -98,7 +97,7 @@ const DeviceControl: React.FC = () => {
     const isShotMode = activeMode === DeviceMode.FACE || activeMode === DeviceMode.EYE;
     const isTimerMode = activeMode === DeviceMode.INFUSION || activeMode === DeviceMode.LIFTING;
 
-    if (isPowerOn && autoMode) {
+    if (autoMode) {
       if (isShotMode && shotsRemaining > 0) {
         // Auto shots: 2 per second
         interval = setInterval(() => {
@@ -124,16 +123,12 @@ const DeviceControl: React.FC = () => {
       } else if ((isShotMode && shotsRemaining === 0) || (isTimerMode && timerRemaining === 0)) {
         setAutoMode(false);
       }
-    } else {
-        // If power off, stop auto
-        if (!isPowerOn) setAutoMode(false);
     }
     
     return () => clearInterval(interval);
-  }, [isPowerOn, autoMode, activeMode, shotsRemaining, timerRemaining]);
+  }, [autoMode, activeMode, shotsRemaining, timerRemaining]);
 
   const handlePressStart = () => {
-    if (!isPowerOn) return;
     const isShotMode = activeMode === DeviceMode.FACE || activeMode === DeviceMode.EYE;
 
     if (isShotMode) {
@@ -148,7 +143,6 @@ const DeviceControl: React.FC = () => {
   };
 
   const handlePressEnd = () => {
-    if (!isPowerOn) return;
     const isShotMode = activeMode === DeviceMode.FACE || activeMode === DeviceMode.EYE;
     const isTimerMode = activeMode === DeviceMode.INFUSION || activeMode === DeviceMode.LIFTING;
 
@@ -193,19 +187,11 @@ const DeviceControl: React.FC = () => {
 
   const currentModeInfo = modes.find(m => m.id === activeMode);
 
-  const togglePower = () => {
-    if (isPowerOn) {
-      setAutoMode(false);
-    }
-    setIsPowerOn(!isPowerOn);
-  };
-
   const getButtonText = () => {
-    if (!isPowerOn) return '请先开机';
     const isShotMode = activeMode === DeviceMode.FACE || activeMode === DeviceMode.EYE;
     
     if (isShotMode) {
-        return autoMode ? '自动发射中...' : '按住发射';
+        return '请用设备操作';
     } else {
         return autoMode ? '暂停护理' : '开始护理';
     }
@@ -250,25 +236,24 @@ const DeviceControl: React.FC = () => {
         </div>
 
         {/* Unified Control Panel */}
-        <div className={`bg-white rounded-[40px] p-5 shadow-sm border border-[#F5EBE0] transition-all duration-700 space-y-5 ${!isPowerOn ? 'opacity-80 grayscale' : ''}`}>
+        <div className={`bg-white rounded-[40px] p-5 shadow-sm border border-[#F5EBE0] transition-all duration-700 space-y-5`}>
             
             {/* 1. Mode Selector Row */}
             <div className="flex justify-between items-center px-1">
                 {modes.map((m) => (
                     <button
                         key={m.id}
-                        disabled={!isPowerOn}
                         onClick={() => setActiveMode(m.id)}
-                        className={`flex flex-col items-center gap-2 group transition-all ${!isPowerOn ? 'opacity-50' : ''}`}
+                        className={`flex flex-col items-center gap-2 group transition-all`}
                     >
                         <div className={`w-12 h-12 rounded-2xl flex items-center justify-center text-xl transition-all duration-300 ${
-                            activeMode === m.id && isPowerOn
+                            activeMode === m.id
                             ? 'bg-[#D7C4B2] text-white shadow-md scale-110' 
                             : 'bg-[#FAF7F2] text-[#C0B3A5] group-active:scale-95'
                         }`}>
                             {m.icon}
                         </div>
-                        <span className={`text-[10px] font-bold transition-colors ${activeMode === m.id && isPowerOn ? 'text-[#4A3E3E]' : 'text-[#C0B3A5]'}`}>
+                        <span className={`text-[10px] font-bold transition-colors ${activeMode === m.id ? 'text-[#4A3E3E]' : 'text-[#C0B3A5]'}`}>
                             {m.name}
                         </span>
                     </button>
@@ -292,14 +277,14 @@ const DeviceControl: React.FC = () => {
             {/* 3. Gear Selector */}
             <div className="space-y-3">
                  <div className="flex justify-between items-center px-1">
-                    <span className="text-[10px] font-bold text-[#C0B3A5] tracking-widest">强度档位</span>
+                    <span className="text-[10px] font-bold text-[#C0B3A5] tracking-widest">档位</span>
                     <span className="text-sm font-bold text-[#D7C4B2] font-serif">{gear}</span>
                 </div>
                 <div className="flex justify-between gap-2 h-10 relative">
                     {/* Background track/bars */}
                     <div className="absolute inset-x-0 top-1/2 -translate-y-1/2 flex justify-between gap-2 h-2 w-full">
                          {[1, 2, 3, 4].map((g) => (
-                            <div key={g} className={`flex-1 rounded-full transition-colors duration-300 ${g <= gear && isPowerOn ? 'bg-[#D7C4B2]' : 'bg-[#F5EBE0]'}`}></div>
+                            <div key={g} className={`flex-1 rounded-full transition-colors duration-300 ${g <= gear ? 'bg-[#D7C4B2]' : 'bg-[#F5EBE0]'}`}></div>
                         ))}
                     </div>
                     
@@ -308,7 +293,6 @@ const DeviceControl: React.FC = () => {
                         <button
                             key={g}
                             onClick={() => setGear(g)}
-                            disabled={!isPowerOn}
                             className="flex-1 h-full z-10"
                         ></button>
                     ))}
@@ -318,20 +302,9 @@ const DeviceControl: React.FC = () => {
 
         {/* Master Controls */}
         <div className="flex gap-4 items-stretch h-16 pt-2">
-          <button 
-            onClick={togglePower}
-            className={`w-20 rounded-[24px] font-bold transition-all shadow-lg active:scale-95 flex flex-col items-center justify-center gap-0.5 ${
-              isPowerOn 
-              ? 'bg-white text-[#4A3E3E] border border-[#F5EBE0]' 
-              : 'bg-[#4A3E3E] text-white'
-            }`}
-          >
-            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
-            <span className="text-[9px] tracking-widest">{isPowerOn ? '关机' : '开机'}</span>
-          </button>
           
           <button 
-            disabled={!isPowerOn || (currentModeInfo?.type === 'shots' ? shotsRemaining <= 0 : timerRemaining <= 0)}
+            disabled={(currentModeInfo?.type === 'shots') || (timerRemaining <= 0)}
             onMouseDown={handlePressStart}
             onMouseUp={handlePressEnd}
             onTouchStart={handlePressStart}

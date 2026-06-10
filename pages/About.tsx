@@ -7,7 +7,7 @@ const About: React.FC = () => {
   const [version, setVersion] = useState('');
 
   const menuItems = [
-    { label: '设置', icon: '⚙️', action: () => setVersion('v1.0.0'), extra: version },
+    { label: '设置', icon: '⚙️', action: () => navigate('/settings'), extra: '' },
     { label: '隐私政策', icon: '🔒', action: () => {} },
     { label: '帐户安全', icon: '🛡️', action: () => {} },
     { label: '用户协议', icon: '📝', action: () => {} },

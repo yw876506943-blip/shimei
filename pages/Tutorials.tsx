@@ -1,25 +1,29 @@
 
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { Search, ChevronDown } from 'lucide-react';
 
 const Tutorials: React.FC = () => {
   const navigate = useNavigate();
-  const [activeTab, setActiveTab] = useState('all');
+  const [searchQuery, setSearchQuery] = useState('');
+  const [selectedModel, setSelectedModel] = useState('ALL');
 
   const tutorials = [
-    { id: '1', title: 'SHEENME M1 Pro 入门', category: 'beginner', type: '视频教程', duration: '3:45', img: 'https://images.unsplash.com/photo-1590156221122-c446210140aa?auto=format&fit=crop&q=80&w=400' },
-    { id: '2', title: 'EMS 提拉正确手法', category: 'advanced', type: '图文指南', duration: '5min 阅读', img: 'https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?auto=format&fit=crop&q=80&w=400' },
-    { id: '3', title: '晚间 15 分钟全效护理', category: 'beginner', type: '视频教程', duration: '15:20', img: 'https://images.unsplash.com/photo-1596462502278-27bfdc4033c8?auto=format&fit=crop&q=80&w=400' },
-    { id: '4', title: '射频模式使用技巧', category: 'advanced', type: '图文指南', duration: '3min 阅读', img: 'https://images.unsplash.com/photo-1615397323145-21d3e8e1694f?auto=format&fit=crop&q=80&w=400' },
+    { id: '1', title: 'SHEENME M1 Pro 入门', category: 'beginner', type: '视频教程', duration: '3:45', img: 'https://images.unsplash.com/photo-1590156221122-c446210140aa?auto=format&fit=crop&q=80&w=400', model: 'SH-M1-PRO' },
+    { id: '2', title: 'EMS 提拉正确手法', category: 'advanced', type: '图文指南', duration: '5min 阅读', img: 'https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?auto=format&fit=crop&q=80&w=400', model: 'ALL' },
+    { id: '3', title: '晚间 15 分钟全效护理', category: 'beginner', type: '视频教程', duration: '15:20', img: 'https://images.unsplash.com/photo-1596462502278-27bfdc4033c8?auto=format&fit=crop&q=80&w=400', model: 'ALL' },
+    { id: '4', title: '射频模式使用技巧', category: 'advanced', type: '图文指南', duration: '3min 阅读', img: 'https://images.unsplash.com/photo-1615397323145-21d3e8e1694f?auto=format&fit=crop&q=80&w=400', model: 'SH-BASIC' },
   ];
 
-  const filteredTutorials = activeTab === 'all' 
-    ? tutorials 
-    : tutorials.filter(t => t.category === activeTab);
+  const filteredTutorials = tutorials.filter(t => {
+    const matchModel = selectedModel === 'ALL' || t.model === 'ALL' || t.model === selectedModel;
+    const matchSearch = t.title.toLowerCase().includes(searchQuery.toLowerCase());
+    return matchModel && matchSearch;
+  });
 
   return (
     <div className="space-y-2 animate-in slide-in-from-left-4 duration-500 bg-[#FAF7F2] min-h-screen">
-      <div className="bg-white px-6 pt-2 pb-2 shadow-sm sticky top-0 z-10 border-b border-[#F5EBE0]/50">
+      <div className="bg-white px-6 pt-2 pb-4 shadow-sm sticky top-0 z-10 border-b border-[#F5EBE0]/50">
         <div className="flex items-center gap-4 mb-4">
           <button 
             type="button"
@@ -32,20 +36,39 @@ const Tutorials: React.FC = () => {
           <h2 className="text-xl font-serif text-[#4A3E3E]">产品教程</h2>
         </div>
         
-        <div className="flex justify-between bg-[#FAF7F2] p-1 rounded-2xl mb-2">
-            {[
-              { id: 'all', label: '全部' },
-              { id: 'beginner', label: '新手入门' },
-              { id: 'advanced', label: '进阶教程' }
-            ].map(tab => (
-              <button 
-                key={tab.id}
-                onClick={() => setActiveTab(tab.id)}
-                className={`flex-1 py-3 text-sm font-bold rounded-xl transition-all ${activeTab === tab.id ? 'bg-[#D7C4B2] text-white shadow-sm' : 'text-[#8B7E74]'}`}
-              >
-                {tab.label}
-              </button>
-            ))}
+        <div className="flex gap-2">
+          <div className="relative w-[140px] shrink-0">
+            <select
+              value={selectedModel}
+              onChange={(e) => setSelectedModel(e.target.value)}
+              className="w-full appearance-none bg-[#FAF7F2] border border-[#F5EBE0] text-[#4A3E3E] text-sm font-bold rounded-2xl py-3.5 pl-4 pr-8 outline-none focus:border-[#D7C4B2] transition-colors overflow-hidden text-ellipsis"
+            >
+              <option value="ALL">全部型号</option>
+              <option value="SH-M1-PRO">SHEENME M1 Pro</option>
+              <option value="SH-BASIC">SHEEN Basic</option>
+            </select>
+            <div className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-[#A39A92]">
+              <ChevronDown size={18} />
+            </div>
+          </div>
+
+          <div className="flex-1 flex gap-2">
+            <div className="relative flex-1">
+              <div className="absolute left-4 top-1/2 -translate-y-1/2 text-[#A39A92]">
+                <Search size={18} />
+              </div>
+              <input
+                type="text"
+                placeholder="搜索教程内容..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="w-full bg-[#FAF7F2] border border-[#F5EBE0] text-[#4A3E3E] placeholder-[#A39A92] text-sm font-bold rounded-2xl py-3.5 pl-11 pr-4 outline-none focus:border-[#D7C4B2] transition-colors"
+              />
+            </div>
+            <button className="bg-[#4A3E3E] text-white px-4 rounded-2xl text-sm font-bold shadow-sm active:scale-95 transition-all">
+              搜索
+            </button>
+          </div>
         </div>
       </div>
 

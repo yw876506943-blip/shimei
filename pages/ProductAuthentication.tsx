@@ -71,8 +71,8 @@ const ProductAuthentication: React.FC = () => {
                         <span className="font-bold text-[#4A3E3E]">SHEENME M1 Pro</span>
                     </div>
                     <div className="flex justify-between text-[10px]">
-                        <span className="text-[#C0B3A5]">SN 序列号:</span>
-                        <span className="font-bold text-[#4A3E3E]">SN-8829-00192</span>
+                        <span className="text-[#C0B3A5]">ID 序列号:</span>
+                        <span className="font-bold text-[#4A3E3E]">ID-8829-00192</span>
                     </div>
                     <div className="flex justify-between text-[10px]">
                         <span className="text-[#C0B3A5]">首次验真:</span>
